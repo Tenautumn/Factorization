@@ -3,9 +3,14 @@ translation.js
 
 core/machine/define.js
 
+machine/storage/batbox.js
+machine/storage/MFE.js
+machine/storage/MFSU.js
+
+machine/transformer.js
+
 block/ore.js
 
+item/tool/wrench.js
 item/dust.js
 item/ingot.js
-
-machine/storage/bat_box.js

@@ -131,28 +131,31 @@ var OreGenerator = {
 
             size++;
     
-            var data = [];
+            var blocks = [];
             var pos = [(random.nextDouble() * 2 - 1) * size,size * 0.7,(random.nextDouble() * 2 - 1) * size];
             for(let x2 = -size;x2 <= size;x2++) for(let z2 = -size;z2 <= size;z2++) for(let y2 = -size;y2 <= size;y2++){
-                var angle = random.nextDouble() * 100 + Math.atan2(x2,z2) * 100;
-                angle = (angle - Math.floor(angle)) * 0.5;
-    
                 var x = coords.x + x2;
                 var y = coords.y + y2;
                 var z = coords.z + z2;
     
                 var key = (size * 2 + 1) * (z2 + size) + (x2 + size);
+
                 var block = World.getBlockID(x,y,z);
                 if(this.isTerrainTile(block)){
-                    data[key] = block
+                    blocks[key] = block;
                 } else {
                     var sqrt = Math.sqrt(x2 * x2 + y2 * y2 * 0.6 + z2 * z2);
+                    var angle = random.nextDouble() * 100 + Math.atan2(x2,z2) * 100;
+                    angle = (angle - Math.floor(angle)) * 0.5;
+
                     if(sqrt + angle < size - 1){
-                        World.setBlock(x,y,z,id);
-                    } else if(data[key] > 0 && sqrt + Math.abs(y2) / size < size && (Math.sqrt(Math.pow(pos[0] - x2,2) + Math.pow(pos[1] - y2,2) + Math.pow(pos[2] - z2,2))) >= (size * random.nextDouble() * 0.8)){
-                        World.setBlock(x,y,z,data[key]);
-                        if(World.getBlockID(x,y - 1,z) == 2) World.setBlock(x,y - 1,z,3)
-                        if(World.getBlockID(x,y + 1,z) == 0 && data[key] == 2 && random.nextDouble() < 0.6) World.setBlock(x,y + 1,z,31,1);
+                        World.setBlock(x,y,z,id,data);
+                    } else {
+                        if(blocks[key] > 0 && sqrt + Math.abs(y2) / size < size && (Math.sqrt(Math.pow(pos[0] - x2,2) + Math.pow(pos[1] - y2,2) + Math.pow(pos[2] - z2,2))) >= (size * random.nextDouble() * 0.8)){
+                            World.setBlock(x,y,z,blocks[key]);
+                            if(World.getBlockID(x,y - 1,z) == 2) World.setBlock(x,y - 1,z,3);
+                            if(World.getBlockID(x,y + 1,z) == 0 && blocks[key] == 2 && random.nextDouble() < 0.6) World.setBlock(x,y + 1,z,31,1);
+                        }
                     }
                 }
             }

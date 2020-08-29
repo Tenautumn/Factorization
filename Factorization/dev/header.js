@@ -3,6 +3,8 @@ IMPORT("ChargeItem");
 IMPORT("EnergyNet");
 IMPORT("MaiSui's ModAPI");
 
+const Color = android.graphics.Color;
+
 const GUI_SCALE = 3.2;
 
 // energy
