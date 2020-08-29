@@ -1,6 +1,7 @@
 {
+  "modid": "fz",
   "name": "Factorization PE",
-  "author": "麦穗 and PV糊",
+  "author": "MaiSui and PvHu",
   "version": "6.0.0",
   "description": "Let's continue Factorization"
 }

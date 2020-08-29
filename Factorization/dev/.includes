@@ -1,6 +1,11 @@
+header.js
 translation.js
+
+core/machine/define.js
 
 block/ore.js
 
 item/dust.js
 item/ingot.js
+
+machine/storage/bat_box.js
