@@ -1,11 +1,11 @@
 // [电池盒]Bat-Box
-IDRegistry.genBlockID(fz("batbox"));
+var block_bat_box = IDRegistry.genBlockID(fz("batbox"));
 Block.createBlock(fz("batbox"),[
 	{name:"Bat-Box",texture:[["batbox_side",0],["batbox_front",0],["batbox_side",0],["batbox_side",0],["batbox_side",0],["batbox_side",0]],inCreative:true}
 ]);
 ToolAPI.registerBlockMaterial(fz("batbox"),"wood");
 
-Item.addCreativeGroup("storage",Translation.translate("Storage"),[BlockID[fz("batbox")]]);
+Item.addCreativeGroup("storage",Translation.translate("Storage"),[block_bat_box]);
 
 var GuiBatBox = new UI.StandartWindow({
 	standart:{
@@ -14,9 +14,7 @@ var GuiBatBox = new UI.StandartWindow({
 		background:{standart:true}
 	},
 	
-	drawing:[
-		{type:"bitmap",x:360,y:50,bitmap:"energy_bar_background",scale:GUI_SCALE}
-	],
+	drawing:[{type:"bitmap",x:360,y:50,bitmap:"energy_bar_background",scale:GUI_SCALE}],
 	
 	elements:{
 		"slotEnergyOutput":{type:"slot",x:560,y:180,isValid:function(id,count,data,container){
@@ -28,13 +26,13 @@ var GuiBatBox = new UI.StandartWindow({
 	}
 });
 
-Machine.registerStorage(fz("batbox"),{
-	canReceiveEnergy:function(side,type){
-		return side == 1;
+Machine.registerStorage(block_bat_box,{
+	canReceiveEnergy:function(side){
+		return side == BlockSide.UP;
 	},
 	
-	canExtractEnergy:function(side,type){
-		return side != 1;
+	canExtractEnergy:function(side){
+		return side != BlockSide.UP;
 	},
 
 	getEnergyStorage:function(){

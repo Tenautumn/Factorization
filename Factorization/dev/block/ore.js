@@ -5,13 +5,13 @@ Block.createSpecialType({
 },"ore");
 
 // [铀矿石]Uranium Ore
-IDRegistry.genBlockID("oreUranium");
+var block_uranium_ore = IDRegistry.genBlockID("oreUranium");
 Block.createBlock("oreUranium",[
     {name:"Uranium Ore",texture:[["uranium_ore",0]],inCreative:true}
 ],"ore");
-ToolAPI.registerBlockMaterial(BlockID.oreUranium,"stone",2,true);
+ToolAPI.registerBlockMaterial(block_uranium_ore,"stone",2,true);
 
-Block.registerDropFunction("oreUranium",function(coords,id,data,level,enchant){
+Block.registerDropFunction(block_uranium_ore,function(coords,id,data,level,enchant){
     if(level >= 2){
         if(enchant.silk) return [[id,1,data]];
 
@@ -24,13 +24,13 @@ Block.registerDropFunction("oreUranium",function(coords,id,data,level,enchant){
 },2);
 
 // [铱矿石]Iridium Ore
-IDRegistry.genBlockID("oreIridium");
+var block_iridium_ore = IDRegistry.genBlockID("oreIridium");
 Block.createBlock("oreIridium",[
     {name:"Iridium Ore",texture:[["iridium_ore",0]],inCreative:true}
 ],"ore");
-ToolAPI.registerBlockMaterial(BlockID.oreIridium,"stone",2,true);
+ToolAPI.registerBlockMaterial(block_iridium_ore,"stone",2,true);
 
-Block.registerDropFunction("oreIridium",function(coords,id,data,level,enchant){
+Block.registerDropFunction(block_iridium_ore,function(coords,id,data,level,enchant){
     if(level >= 2){
         if(enchant.silk) return [[id,1,data]];
 
@@ -43,24 +43,24 @@ Block.registerDropFunction("oreIridium",function(coords,id,data,level,enchant){
 },2);
 
 // [混合粉尘矿石]Blended Dust Ore
-IDRegistry.genBlockID("oreBlend");
-Block.createBlock("oreBlend",[
-    {name:"Blended Dust Ore",texture:[["blend_ore",0]],inCreative:true}
+var block_blended_dust_ore = IDRegistry.genBlockID("oreBlendedDust");
+Block.createBlock("oreBlendedDust",[
+    {name:"Blended Dust Ore",texture:[["blended_dust_ore",0]],inCreative:true}
 ],"ore");
-ToolAPI.registerBlockMaterial(BlockID.oreBlend,"stone",2,true);
+ToolAPI.registerBlockMaterial(block_blended_dust_ore,"stone",2,true);
 
-Block.registerDropFunction("oreBlend",function(coords,id,data,level,enchant){
+Block.registerDropFunction(block_blended_dust_ore,function(coords,id,data,level,enchant){
     if(level >= 2){
         if(enchant.silk) return [[id,1,data]];
 
         var drop = [];
-        drop.push([ItemID.dustIron  ,Math.floor(Math.random() * 3  ),0]);
-        drop.push([ItemID.dustGold  ,Math.floor(Math.random() * 2  ),0]);
-        drop.push([ItemID.dustCopper,Math.floor(Math.random() * 2  ),0]);
-        drop.push([ItemID.dustTin   ,Math.floor(Math.random() * 2  ),0]);
-        drop.push([331              ,Math.floor(Math.random() * 6  ),0]);
-        drop.push([ItemID.uranium   ,Math.floor(Math.random() * 1.5),0]);
-        drop.push([351              ,Math.floor(Math.random() * 3  ),4]);
+        drop.push([ItemID.dustIron  ,Math.floor(Math.random()*3  ),0]);
+        drop.push([ItemID.dustGold  ,Math.floor(Math.random()*2  ),0]);
+        drop.push([ItemID.dustCopper,Math.floor(Math.random()*2  ),0]);
+        drop.push([ItemID.dustTin   ,Math.floor(Math.random()*2  ),0]);
+        drop.push([331              ,Math.floor(Math.random()*6  ),0]);
+        drop.push([ItemID.uranium   ,Math.floor(Math.random()*1.5),0]);
+        drop.push([351              ,Math.floor(Math.random()*3  ),4]);
         ToolAPI.dropOreExp(coords,3,6,enchant.experience);
         return drop;
 	}
@@ -68,27 +68,27 @@ Block.registerDropFunction("oreBlend",function(coords,id,data,level,enchant){
 },2);
 
 // [铜矿石]Copper Ore
-IDRegistry.genBlockID("oreCopper");
+var block_copper_ore = IDRegistry.genBlockID("oreCopper");
 Block.createBlock("oreCopper",[
     {name:"Copper Ore",texture:[["copper_ore",0]],inCreative:true}
 ],"ore");
-ToolAPI.registerBlockMaterial(BlockID.oreCopper,"stone",1,true);
+ToolAPI.registerBlockMaterial(block_copper_ore,"stone",1,true);
 Block.setDestroyLevel("oreCopper",1);
 
 // [锡矿石]Tin Ore
-IDRegistry.genBlockID("oreTin");
+var block_tin_ore = IDRegistry.genBlockID("oreTin");
 Block.createBlock("oreTin",[
     {name:"Tin Ore",texture:[["tin_ore",0]],inCreative:true}
 ],"ore");
-ToolAPI.registerBlockMaterial(BlockID.oreTin,"stone",1,true);
+ToolAPI.registerBlockMaterial(block_tin_ore,"stone",1,true);
 Block.setDestroyLevel("oreTin",1);
 
 Item.addCreativeGroup("ore",Translation.translate("Ore"),[
-	BlockID.oreUranium,
-	BlockID.oreIridium,
-	BlockID.oreBlend,
-	BlockID.oreCopper,
-	BlockID.oreTin
+	block_uranium_ore,
+	block_iridium_ore,
+	block_blended_dust_ore,
+	block_copper_ore,
+	block_tin_ore
 ]);
 
 var OreGenerator = {
@@ -97,12 +97,7 @@ var OreGenerator = {
     },
 
     setOreBlock:function(x,y,z,id,data){
-        var block = World.getBlockID(x,y,z);
-        if(block == id) return;
-
-        if(block == 1){
-            World.setBlock(x,y,z,id,(data || 0));
-        }
+        if(World.getBlockID(x,y,z) == 1) World.setBlock(x,y,z,id,(data || 0));
     },
 
     genOre:function(x,y,z,id,data){
@@ -115,9 +110,7 @@ var OreGenerator = {
         for(let x2 = -1;x2 < 2;x2++) for(let y2 = -1;y2 < 2;y2++) for(let z2 = -1;z2 < 2;z2++){
             var key1 = Math.sqrt(x2 * x2 + y2 * y2 + z2 * z2);
             var key2 = random.nextDouble() * random.nextDouble() * 1.5 + random.nextDouble() / 2;
-            if(key1 < key2){
-                this.setOreBlock(x + x2,y + y2,z + z2,id,data);
-            }
+            if(key1 < key2) this.setOreBlock(x + x2,y + y2,z + z2,id,data);
         }
     },
     
@@ -128,7 +121,7 @@ var OreGenerator = {
     genSurfaceOre:function(random,chunkX,chunkZ,id,data,count,size){
         for(let i = 0;i < random.nextInt(count);i++){
             var coords = GenerationUtils.findSurface((chunkX + random.nextDouble()) * 16,96,(chunkZ + random.nextDouble()) * 16);
-
+            coords.y--;
             size++;
     
             var blocks = [];
@@ -166,27 +159,27 @@ var OreGenerator = {
 Callback.addCallback("GenerateChunkUnderground",function(chunkX,chunkZ,random){
     for(let i = 0;i < random.nextInt(13);i++){
         var coords = OreGenerator.randomCoords(random,chunkX,chunkZ,4,56);
-        OreGenerator.genSmallOre(random,coords.x,coords.y,coords.z,BlockID.oreUranium);
+        OreGenerator.genSmallOre(random,coords.x,coords.y,coords.z,block_uranium_ore);
     }
 
     if(random.nextDouble() < 0.25){
         var coords = OreGenerator.randomCoords(random,chunkX,chunkZ,4,48);
-        OreGenerator.genSmallOre(random,coords.x,coords.y,coords.z,BlockID.oreIridium);
+        OreGenerator.genSmallOre(random,coords.x,coords.y,coords.z,block_iridium_ore);
     }
 
     for(let i = 0;i < random.nextInt(2);i++){
         var coords = OreGenerator.randomCoords(random,chunkX,chunkZ,4,20);
-        OreGenerator.genOre(coords.x,coords.y,coords.z,BlockID.oreBlend);
+        OreGenerator.genOre(coords.x,coords.y,coords.z,block_blended_dust_ore);
     }
 
     for(let i = 0;i < random.nextInt(6);i++){
         var coords = OreGenerator.randomCoords(random,chunkX,chunkZ,8,60);
-        OreGenerator.genOre(coords.x,coords.y,coords.z,BlockID.oreCopper);
+        OreGenerator.genOre(coords.x,coords.y,coords.z,block_copper_ore);
     }
 
     for(let i = 0;i < random.nextInt(4);i++){
         var coords = OreGenerator.randomCoords(random,chunkX,chunkZ,8,60);
-        OreGenerator.genOre(coords.x,coords.y,coords.z,BlockID.oreTin);
+        OreGenerator.genOre(coords.x,coords.y,coords.z,block_tin_ore);
     }
 
     // Surface Ore
@@ -199,22 +192,22 @@ Callback.addCallback("GenerateChunkUnderground",function(chunkX,chunkZ,random){
     }
 
     if(random.nextDouble() < 0.125){
-        OreGenerator.genSurfaceOre(random,chunkX,chunkZ,BlockID.oreUranium,0,1,1);
+        OreGenerator.genSurfaceOre(random,chunkX,chunkZ,block_uranium_ore,0,1,1);
     }
 
     if(random.nextDouble() < 0.008){
-        OreGenerator.genSurfaceOre(random,chunkX,chunkZ,BlockID.oreIridium,0,0.016,1);
+        OreGenerator.genSurfaceOre(random,chunkX,chunkZ,block_iridium_ore,0,1,1);
     }
 
     if(random.nextDouble() < 0.125){
-        OreGenerator.genSurfaceOre(random,chunkX,chunkZ,BlockID.oreBlend,0,1,2);
+        OreGenerator.genSurfaceOre(random,chunkX,chunkZ,block_blended_dust_ore,0,1,2);
     }
 
     if(random.nextDouble() < 0.5){
-        OreGenerator.genSurfaceOre(random,chunkX,chunkZ,BlockID.oreCopper,0,1,2 + random.nextDouble());
+        OreGenerator.genSurfaceOre(random,chunkX,chunkZ,block_copper_ore,0,1,2 + random.nextDouble());
     }
 
     if(random.nextDouble() < 0.5){
-        OreGenerator.genSurfaceOre(random,chunkX,chunkZ,BlockID.oreTin,0,2,1 + random.nextDouble());
+        OreGenerator.genSurfaceOre(random,chunkX,chunkZ,block_tin_ore,0,2,1 + random.nextDouble());
     }
 });

@@ -1,11 +1,11 @@
 // MFSU
-IDRegistry.genBlockID(fz("MFSU"));
+var block_MFSU = IDRegistry.genBlockID(fz("MFSU"));
 Block.createBlock(fz("MFSU"),[
 	{name:"MFSU",texture:[["mfsu_side",0],["mfsu_front",0],["mfsu_side",0],["mfsu_side",0],["mfsu_side",0],["mfsu_side",0]],inCreative:true}
 ]);
 ToolAPI.registerBlockMaterial(fz("MFSU"),"wood");
 
-Item.addCreativeGroup("storage",Translation.translate("Storage"),[BlockID[fz("MFSU")]]);
+Item.addCreativeGroup("storage",Translation.translate("Storage"),[block_MFSU]);
 
 var GuiMFSU = new UI.StandartWindow({
 	standart:{
@@ -14,9 +14,7 @@ var GuiMFSU = new UI.StandartWindow({
 		background:{standart:true}
 	},
 	
-	drawing:[
-		{type:"bitmap",x:360,y:50,bitmap:"energy_bar_background",scale:GUI_SCALE}
-	],
+	drawing:[{type:"bitmap",x:360,y:50,bitmap:"energy_bar_background",scale:GUI_SCALE}],
 	
 	elements:{
 		"slotEnergyOutput":{type:"slot",x:560,y:180,isValid:function(id,count,data,container){
@@ -28,13 +26,13 @@ var GuiMFSU = new UI.StandartWindow({
 	}
 });
 
-Machine.registerStorage(fz("MFSU"),{
+Machine.registerStorage(block_MFSU,{
 	canReceiveEnergy:function(side){
-		return side == 1;
+		return side == BlockSide.UP;
 	},
 	
 	canExtractEnergy:function(side){
-		return side != 1;
+		return side != BlockSide.UP;
 	},
 
 	getEnergyStorage:function(){
@@ -56,24 +54,3 @@ Machine.registerStorage(fz("MFSU"),{
 		this.container.setText("textStorage",this.data.energy + "/" + this.getEnergyStorage() + " Eu");
 	}
 });
-
-/**
-var fz_1b0 = fz_26 - fz_15a["x"];
-var fz_1b1 = fz_27 - fz_15a["y"];
-var fz_1b2 = fz_28 - fz_15a["z"];
-var fz_15b = Math["sqrt"](fz_1b0 * fz_1b0 + fz_1b1 * fz_1b1 + fz_1b2 * fz_1b2);
-fz_1b0 /= fz_15b;
-fz_1b1 /= fz_15b;
-fz_1b2 /= fz_15b;
-var fz_13 = 0;
-for (var fz_1a7 = 0; fz_1a7 < fz_15b; fz_1a7 += 0.75 + Math["random"]() * 0.5) {
-    var fz_1b3 = fz_15a["x"] + fz_1b0 * fz_1a7;
-    var fz_1b4 = fz_15a["y"] + fz_1b1 * fz_1a7;
-    var fz_1b5 = fz_15a["z"] + fz_1b2 * fz_1a7;
-    Level["addParticle"](5, fz_1b3, fz_1b4, fz_1b5, 0, 0, 0, 1);
-    fz_13++;
-    if (fz_13 > 75) {
-        break
-    }
-}
-*/

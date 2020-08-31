@@ -1,11 +1,11 @@
 // MFE
-IDRegistry.genBlockID(fz("MFE"));
+var block_MFE = IDRegistry.genBlockID(fz("MFE"));
 Block.createBlock(fz("MFE"),[
 	{name:"MFE",texture:[["mfe_side",0],["mfe_front",0],["mfe_side",0],["mfe_side",0],["mfe_side",0],["mfe_side",0]],inCreative:true}
 ]);
 ToolAPI.registerBlockMaterial(fz("MFE"),"wood");
 
-Item.addCreativeGroup("storage",Translation.translate("Storage"),[BlockID[fz("MFE")]]);
+Item.addCreativeGroup("storage",Translation.translate("Storage"),[block_MFE]);
 
 var GuiMFE = new UI.StandartWindow({
 	standart:{
@@ -14,9 +14,7 @@ var GuiMFE = new UI.StandartWindow({
 		background:{standart:true}
 	},
 	
-	drawing:[
-		{type:"bitmap",x:360,y:50,bitmap:"energy_bar_background",scale:GUI_SCALE}
-	],
+	drawing:[{type:"bitmap",x:360,y:50,bitmap:"energy_bar_background",scale:GUI_SCALE}],
 	
 	elements:{
 		"slotEnergyOutput":{type:"slot",x:560,y:180,isValid:function(id,count,data,container){
@@ -28,13 +26,13 @@ var GuiMFE = new UI.StandartWindow({
 	}
 });
 
-Machine.registerStorage(fz("MFE"),{
-	canReceiveEnergy:function(side,type){
-		return side == 1;
+Machine.registerStorage(block_MFE,{
+	canReceiveEnergy:function(side){
+		return side == BlockSide.UP;
 	},
 	
-	canExtractEnergy:function(side,type){
-		return side != 1;
+	canExtractEnergy:function(side){
+		return side != BlockSide.UP;
 	},
 
 	getEnergyStorage:function(){

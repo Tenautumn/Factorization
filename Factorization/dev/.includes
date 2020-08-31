@@ -6,8 +6,8 @@ core/machine/define.js
 machine/storage/batbox.js
 machine/storage/MFE.js
 machine/storage/MFSU.js
-
 machine/transformer.js
+machine/crop_harvester.js
 
 block/ore.js
 

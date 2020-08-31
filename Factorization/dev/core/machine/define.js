@@ -120,6 +120,10 @@ var Machine = {
         
         tier++;
         this.registerMachine(id,{
+            defaultValues:{
+                isFull:true
+            },
+
             getOutputSide:function(){
                 return World.getBlockData(this.x,this.y,this.z);
             },
@@ -175,10 +179,7 @@ var Machine = {
         return rotation;
     },
 
-    setRotationPlaceFunction:function(name,isFull){
-        var id = Block.getNumericId(name);
-        if(id == -1) return;
-
+    setRotationPlaceFunction:function(id,isFull){
         Block.registerPlaceFunction(id,function(coords,item,block){
             var place = World.canTileBeReplaced(block.id,block.data)?coords:coords.relative;
             World.setBlock(place.x,place.y,place.z,item.id,Machine.getRotationSide(isFull));

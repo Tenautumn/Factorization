@@ -2,6 +2,7 @@
 IMPORT("ChargeItem");
 IMPORT("EnergyNet");
 IMPORT("MaiSui's ModAPI");
+IMPORT("StorageInterface");
 
 const Color = android.graphics.Color;
 
