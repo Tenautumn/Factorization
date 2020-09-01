@@ -1,11 +1,17 @@
+// Tool
+Translation.addTranslation("Wrench",{ru:"Гаечный ключ",zh:"[FZ]扳手"});
+
 // Dust
 Translation.addTranslation("Iron Dust",{ru:"Железная пыль",zh:"[FZ]铁粉"});
 Translation.addTranslation("Gold Dust",{ru:"Золотая пыль",zh:"[FZ]金粉"});
 Translation.addTranslation("Copper Dust",{ru:"Медная пыль",zh:"[FZ]铜粉"});
 Translation.addTranslation("Tin Dust",{ru:"Оловянная пыль",zh:"[FZ]锡粉"});
 
-// Tool
-Translation.addTranslation("Wrench",{ru:"Гаечный ключ",zh:"[FZ]扳手"});
+Translation.addTranslation("Copper Wire",{zh:"[FZ]铜质导线"});
+Translation.addTranslation("Crystal Wire",{zh:"[FZ]钻石导线"});
+Translation.addTranslation("Golden Wire",{zh:"[FZ]金质导线"});
+Translation.addTranslation("Steel Wire",{zh:"[FZ]钢质导线"});
+Translation.addTranslation("Super Conductor",{zh:"[FZ]超导体"});
 
 // Storage
 Translation.addTranslation("Bat-Box",{ru:"Бат-бокс",zh:"[FZ]电池盒"});
@@ -28,3 +34,4 @@ Translation.addTranslation("Tin Ore",{ru:"Оловянная руда",zh:"[FZ]�
 
 // Tooltip
 Translation.addTranslation("Power Tier: ",{ru:"Энергоуровень: ",zh:"能量等级: "});
+Translation.addTranslation("Max Voltage: ",{zh:"最高电压: "});

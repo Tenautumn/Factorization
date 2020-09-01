@@ -13,3 +13,11 @@ Item.createItem("dustCopper","Copper Dust",{name:"copper_dust"});
 // [锡粉]Tin Dust
 var item_dust_tin = IDRegistry.genItemID("dustTin");
 Item.createItem("dustTin","Tin Dust",{name:"tin_dust"});
+
+// Group
+Item.addCreativeGroup("dust",Translation.translate("Dust"),[
+    item_dust_iron  ,
+    item_dust_gold  ,
+    item_dust_copper,
+    item_dust_tin   ,
+]);

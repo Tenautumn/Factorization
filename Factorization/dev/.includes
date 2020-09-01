@@ -1,16 +1,22 @@
 header.js
 translation.js
 
-core/machine/define.js
+core/machine.js
 
 machine/storage/batbox.js
 machine/storage/MFE.js
 machine/storage/MFSU.js
 machine/transformer.js
 machine/crop_harvester.js
+machine/macerator.js
+machine/generator/solar_panel.js
 
 block/ore.js
 
 item/tool/wrench.js
+item/battery.js
+item/casing.js
+item/circuit.js
 item/dust.js
 item/ingot.js
+item/wire.js

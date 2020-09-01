@@ -1,7 +1,8 @@
 function BasicEnergyReceive(type,amount,voltage){
     var add = 0;
 
-    if(voltage > this.getMaxVoltage()){
+    var maxVoltage = this.getMaxVoltage();
+    if(voltage > maxVoltage){
         if(__config__.getBool("machine.voltage")){
             World.setBlock(this.x,this.y,this.z,0);
             World.explode(this.x + 0.5,this.y + 0.5,this.z + 0.5,1.2,true);
@@ -9,7 +10,7 @@ function BasicEnergyReceive(type,amount,voltage){
             return 1;
         }
 
-        add = Math.min(this.getMaxVoltage(),this.getEnergyStorage() - this.data.energy);
+        add = Math.min(maxVoltage,this.getEnergyStorage() - this.data.energy);
     } else {
         add = Math.min(amount,this.getEnergyStorage() - this.data.energy);
     }
@@ -24,9 +25,9 @@ function BasicEnergyOutput(type,src){
     this.data.lastVoltage = this.data.voltage;
     this.data.voltage = 0;
     
-    var output = this.getMaxVoltage();
-    if(this.data.energy >= output){
-        this.data.energy += src.add(output) - output;
+    var maxVoltage = this.getMaxVoltage();
+    if(this.data.energy >= maxVoltage){
+        this.data.energy += src.add(maxVoltage) - maxVoltage;
     }
 }
 
@@ -35,6 +36,42 @@ var Machine = {
 
     isMachine:function(id){
         return this.machineIDs[id];
+    },
+
+    registerPrototype:function(name,state){
+        var id = Block.getNumericId(name);
+        if(id == -1) return;
+
+        if(state.defaultValues && state.defaultValues.isActive !== undefined){
+            state.defaultValues.meta = 0;
+            
+            state.renderer = state.renderer || function(){
+                TileRenderer.mapAtCoords(this.x,this.y,this.z,this.blockID,this.data.meta + (this.data.isActive?(this.data.full?6:4):0));
+            };
+
+            state.setActive = state.setActive || function(active){
+                if(this.data.isActive != active){
+                    this.data.isActive = active;
+                    this.renderer();
+                }
+            }
+
+            state.activate = state.activate || function(){
+                this.setActive(true);
+            }
+
+            state.deactivate = state.deactivate || function(){
+                this.setActive(false);
+            }
+
+            state.destroy = state.destroy || function(){
+                BlockRenderer.unmapAtCoords(this.x,this.y,this.z);
+            }
+		}
+
+        if(!state.init && state.renderer) state.init = state.renderer;
+
+        TileEntity.registerPrototype(id,state);
     },
 
     registerMachine:function(name,state){
@@ -78,7 +115,7 @@ var Machine = {
             return Translation.translate("Power Tier: ") + tile.getTier();
         },"power-tier");
  
-        TileEntity.registerPrototype(id,state);
+        this.registerPrototype(name,state);
         EnergyTileRegistry.addEnergyTypeForId(id,EU);
     },
 
@@ -117,23 +154,20 @@ var Machine = {
     registerTransformer:function(name,tier){
         var id = Block.getNumericId(name);
         if(id == -1) return;
-        
         tier++;
+
         this.registerMachine(id,{
             defaultValues:{
-                isFull:true
-            },
-
-            getOutputSide:function(){
-                return World.getBlockData(this.x,this.y,this.z);
+                meta:0,
+                full:true
             },
         
             canReceiveEnergy:function(side){
-                return side != this.getOutputSide();
+                return side != this.data.meta;
             },
             
             canExtractEnergy:function(side){
-                return side == this.getOutputSide();
+                return side == this.data.meta;
             },
         
             getEnergyStorage:function(){
@@ -156,35 +190,65 @@ var Machine = {
         
             energyReceive:BasicEnergyReceive
         });
-        this.setRotationPlaceFunction(id,true);
+        TileRenderer.setRotationPlaceFunction(id,true);
 
         ItemName.removeTooltipByPrefix(id,"power-tier");
         ItemName.registerTooltipAddFunction(id,function(item,name){
             var tile = TileEntity.getPrototype(item.id);
             return "Low: " + power(tile.getTier() - 1) + " EU/t High: " + power(tile.getTier()) + " EU/t";
         });
+
+        Item.addCreativeGroup("transformer",Translation.translate("Transformer"),[id]);
     },
 
-    getRotationSide:function(isFull){
-        var pitch = EntityGetPitch(Player.get());
-        if(isFull){
-            if(pitch < -45) return 0;
-            if(pitch > 45) return 1;
-        }
-    
-        var rotation = Math.floor((EntityGetYaw(Player.get())-45)%360/90);
-        if(rotation < 0) rotation += 4;
-        rotation = [3,1,2,0][rotation];
-        if(isFull) return rotation + 2;
-        return rotation;
-    },
+    wireIDs:{},
 
-    setRotationPlaceFunction:function(id,isFull){
-        Block.registerPlaceFunction(id,function(coords,item,block){
-            var place = World.canTileBeReplaced(block.id,block.data)?coords:coords.relative;
-            World.setBlock(place.x,place.y,place.z,item.id,Machine.getRotationSide(isFull));
-            World.playSound(place.x,place.y,place.z,"dig.stone",1,0.8)
-            World.addTileEntity(place.x, place.y, place.z);
+    registerWire:function(name,maxVoltage){
+        var itemID = Item.getNumericId(name);
+        var blockID = Block.getNumericId(name);
+
+        Item.registerUseFunction(itemID,function(coords,item,block){
+            var place = coords;
+            if(!World.canTileBeReplaced(block.id,block.data)){
+                place = coords.relative;
+                block = World.getBlock(place.x,place.y,place.z);
+                if(!World.canTileBeReplaced(block.id,block.data)) return;
+            }
+            
+            World.setBlock(place.x,place.y,place.z,blockID,0);
+            Player.decreaseCarriedItem(1);
+            EnergyTypeRegistry.onWirePlaced(place.x,place.y,place.z);
         });
+
+        ItemName.registerTooltipAddFunction(itemID,function(item){
+            return Translation.translate("Max Voltage: ") + maxVoltage;
+        },"voltage");
+
+        EU.registerWire(blockID,function(voltage){
+            for(let key in this.wireMap){
+                var x = Math.floor(key.split(":")[0]);
+                var y = Math.floor(key.split(":")[1]);
+                var z = Math.floor(key.split(":")[2]);
+
+                World.setBlock(x,y,z,0);
+                for(let i = 0;i < 32;i++){
+                    Particles.addFarParticle(ParticleType.smoke,x + Math.random(),y + Math.random(),z + Math.random(),0,0.01,0);
+                }
+            }
+            EnergyNetBuilder.removeNet(this);
+        });
+
+        Block.registerDropFunction(blockID,function(){
+            return [[itemID,1,0]];
+        });
+
+        Block.registerPopResourcesFunction(blockID,function(coords,block){
+            if(Math.random() < 0.25){
+                World.drop(coords.x + 0.5,coords.y + 0.5,coords.z + 0.5,itemID,1,0);
+            }
+            EnergyTypeRegistry.onWireDestroyed(coords.x,coords.y,coords.z,block.id);
+        });
+
+        Item.addCreativeGroup("wire",Translation.translate("Wire"),[itemID]);
     }
 }

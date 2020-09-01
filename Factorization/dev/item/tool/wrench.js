@@ -1,8 +1,8 @@
 // [扳手]Wrench
-var item_wrench = IDRegistry.genItemID("wrench");
-Item.createItem("wrench","Wrench",{name:"wrench"},{stack:1});
+var item_wrench_bronze = IDRegistry.genItemID(fz("wrenchBronze"));
+Item.createItem(fz("wrenchBronze"),"Wrench",{name:"bronze_wrench"},{stack:1});
 
-Item.registerUseFunction(item_wrench,function(coords,item,block){
+Item.registerUseFunction(item_wrench_bronze,function(coords,item,block){
     if(Machine.isMachine(block.id)){
         var tile = World.getTileEntity(coords.x,coords.y,coords.z);
         var energy = tile.data.energy;

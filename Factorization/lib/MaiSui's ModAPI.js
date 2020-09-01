@@ -141,22 +141,29 @@ var ItemName = {
         return false;
     },
 
-    onTooltipAdd:function(){
-        for(let id in ItemName.tooltipAddFunctions){
-            Item.registerNameOverrideFunction(parseInt(id),function(item,translation,name){
-                var tooltip = "";
-                for(let i in ItemName.tooltipAddFunctions[item.id]){
-                    var data = ItemName.tooltipAddFunctions[item.id][i];
-                    tooltip += "\n§7" + data.func(item,translation,name);
-                }
-                return translation + tooltip;
-            });
+    getTooltipFunction:function(item,translation,name){
+        var tooltip = "";
+        for(let i in this.tooltipAddFunctions[item.id]){
+            var data = this.tooltipAddFunctions[item.id][i];
+            tooltip += "\n§7" + data.func(item,translation,name);
         }
+        return tooltip;
+    },
+    
+    registerNameOverrideFunction:function(id,state){
+        Item.registerNameOverrideFunction(id,function(item,translation,name){
+            var tooltip = ItemName.getTooltipFunction(item,translation,name);
+            return state(item,translation,name,tooltip);
+        });
     }
 }
 
 Callback.addCallback("LevelLoaded",function(){
-    ItemName.onTooltipAdd();
+    for(let id in ItemName.tooltipAddFunctions){
+        Item.registerNameOverrideFunction(parseInt(id),function(item,translation,name){
+            return translation + ItemName.getTooltipFunction(item,translation,name);
+        });
+    }
 });
 
 // ================================================== * MachineRecipe * ================================================== //
@@ -171,13 +178,21 @@ var MachineRecipe = {
 
     parseItem:function(item){
         var data = [];
-        for(let i in item) data.push({id:item[i].id,count:(item[i].count || 1),data:(item[i].data || 0)});
+        for(let i in item){
+            data.push({id:item[i].id,count:(item[i].count || 1),data:(item[i].data || 0)});
+        }
         return data;
     },
 
     addMachineRecipe:function(name,input,output,extra){
         var recipe = this.getRecipe(name);
         recipe.push({input:this.parseItem(input),output:this.parseItem(output),extra:(extra || {})});
+    },
+
+    addMachineRecipeFor:function(name,recipes){
+        for(let i in recipes){
+            this.addMachineRecipe(name,recipes[i].input,recipes[i].output,recipes[i].extra || {});
+        }
     },
 
     parseInput:function(input){        
@@ -212,24 +227,47 @@ var MachineRecipe = {
         }
     },
 
-    addItemBySlot:function(name,id,count,data){
-        for(let i in name){
-            if(name[i].id == 0 || name[i].id == id && name[i].data == data && name[i].count < Item.getMaxStack(name[i].id)){
-                name[i].id = id;
-                name[i].data = data;
-                var minCount = Item.getMaxStack(name[i].id) - name[i].count;
-                if(minCount < count){
-                    name[i].count += Math.min(minCount,count);
-                    this.addItemBySlot(name,id,count - minCount,data);
+    addItemBySlot:function(slots,id,count,data){
+        if(count > 0){
+            for(let i in slots){
+                var slot = slots[i];
+
+                var maxStack = Item.getMaxStack(slot.id);
+                if(slot.id == 0 || slot.id == id && slot.data == data && slot.count < maxStack){
+                    slot.id = id;
+                    slot.data = data;
+
+                    var minCount = maxStack - slot.count;
+                    if(minCount < count){
+                        slot.count += Math.min(minCount,count);
+                        this.addItemBySlot(slot,id,count - minCount,data);
+                        return;
+                    } else {
+                        slot.count += count;
+                        return;
+                    }
+                }
+            }
+            
+            World.drop(this.x + 0.5,this.y + 1.5,this.z + 0.5,id,count,data);
+        }
+    },
+
+    decreaseItemBySlot:function(slots,id,count,data){
+        if(count > 0){
+            for(let i in slots){
+                var slot = slots[i];
+                if(slot.id == id && (data == -1 || slot.data == data) && slot.count < count){
+                    var slotCount = slot.count;
+                    slot.count -= slotCount;
+                    this.decreaseItemBySlot(slot,id,count - slotCount,data);
                     return;
                 } else {
-                    name[i].count += count;
+                    slot.count -= count;
                     return;
                 }
             }
         }
-        
-        World.drop(this.x + 0.5,this.y + 1.5,this.z + 0.5,id,count,data);
     },
 
     setRecipeOutputBySlot:function(recipe,input,output){
@@ -238,15 +276,7 @@ var MachineRecipe = {
         }
 
         for(let i in recipe.input){
-            var count = 0;
-            while(count < recipe.input[i].count){
-                for(let i2 in input){
-                    if(input[i2].id == recipe.input[i].id && (recipe.input[i].data == -1 || input[i2].data == recipe.input[i].data)){
-                        input[i2].count -= Math.min(recipe.input[i].count - count,input[i2].count);
-                        count += Math.min(recipe.input[i].count - count,input[i2].count);
-                    }
-                }
-            }
+            this.decreaseItemBySlot(input,recipe.input[i].id,recipe.input[i].count,recipe.input[i].data);
         }
     },
     
@@ -264,8 +294,20 @@ var MachineRecipe = {
             }
         }
         return false;
+    },
+
+    getSlotAll:function(match,tile){
+        var slot = [];
+        for(let name in tile.container.slots){
+            if(name.match(match)){
+                slot.push(tile.container.getSlot(name));
+            }
+        }
+        return slot;
     }
 }
+
+
 
 EXPORT("Chunk",Chunk);
 EXPORT("ItemName",ItemName);
