@@ -1,6 +1,6 @@
 // [作物收割机]Crop Harvester
-var block_crop_harvester = IDRegistry.genBlockID(fz("cropHarvester"));
-Block.createBlock(fz("cropHarvester"),[
+var block_crop_harvester = IDRegistry.genBlockID("cropHarvester");
+Block.createBlock("cropHarvester",[
     {name:"Crop Harvester",texture:[["machine_bottom",0],["machine_top",0],["machine_side",0],["crop_harvester",0],["machine_side",0],["machine_side",0]],inCreative:true}
 ]);
 ToolAPI.registerBlockMaterial(block_crop_harvester,"stone",1,true);

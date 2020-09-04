@@ -1,6 +1,6 @@
 // [扳手]Wrench
-var item_wrench_bronze = IDRegistry.genItemID(fz("wrenchBronze"));
-Item.createItem(fz("wrenchBronze"),"Wrench",{name:"bronze_wrench"},{stack:1});
+var item_wrench_bronze = IDRegistry.genItemID("wrenchBronze");
+Item.createItem("wrenchBronze","Wrench",{name:"bronze_wrench"},{stack:1});
 
 Item.registerUseFunction(item_wrench_bronze,function(coords,item,block){
     if(Machine.isMachine(block.id)){

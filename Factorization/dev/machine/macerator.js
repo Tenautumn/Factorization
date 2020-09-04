@@ -1,6 +1,6 @@
 // [打粉机]Macerator
-var block_macerator = IDRegistry.genBlockID(fz("macerator"));
-Block.createBlock(fz("macerator"),[
+var block_macerator = IDRegistry.genBlockID("macerator");
+Block.createBlock("macerator",[
     {name:"Macerator",texture:[["machine_bottom",0],["macerator_top",0],["machine_side",0],["macerator",0],["machine_side",0],["machine_side",0]],inCreative:true}
 ]);
 TileRenderer.setStandartModel(block_macerator,[["machine_bottom",0],["macerator_top",0],["machine_side",0],["macerator",0],["machine_side",0],["machine_side",0]]);

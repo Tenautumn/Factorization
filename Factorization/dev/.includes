@@ -12,7 +12,9 @@ machine/macerator.js
 machine/generator/solar_panel.js
 
 block/ore.js
+block/rubber_tree.js
 
+item/tool/solar_helmet.js
 item/tool/wrench.js
 item/battery.js
 item/casing.js

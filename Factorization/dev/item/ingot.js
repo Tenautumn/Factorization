@@ -1,3 +1,15 @@
+// [粘性树脂]Latex
+var item_latex = IDRegistry.genItemID("latex");
+Item.createItem("latex","Latex",{name:"latex"});
+
+// [橡胶]Rubber
+var item_rubber = IDRegistry.genItemID("rubber");
+Item.createItem("rubber","Rubber",{name:"rubber"});
+
+Callback.addCallback("PreLoaded",function(){
+    Recipes.addFurnace(item_latex,item_rubber);
+});
+
 // [铀矿石]Uranium Ore
 var item_uranium = IDRegistry.genItemID("uraniumChunk");
 Item.createItem("uraniumChunk","Uranium Ore",{name:"uranium"});

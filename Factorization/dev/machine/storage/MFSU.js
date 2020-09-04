@@ -1,7 +1,7 @@
 // MFSU
-var block_MFSU = IDRegistry.genBlockID(fz("MFSU"));
-Block.createBlock(fz("MFSU"),[
-	{name:"MFSU",texture:[["mfsu_bottom",0],["mfsu_front",0],["mfsu_side",0],["mfsu_side",0],["mfsu_side",0],["mfsu_side",0]],inCreative:true}
+var block_MFSU = IDRegistry.genBlockID("MFSU");
+Block.createBlock("MFSU",[
+	{name:"MFSU",texture:[["mfsu",0],["mfsu",1],["mfsu",0],["mfsu",0],["mfsu",0],["mfsu",0]],inCreative:true}
 ]);
 ToolAPI.registerBlockMaterial(block_MFSU,"stone",1,true);
 Block.setDestroyLevel(block_MFSU,1);

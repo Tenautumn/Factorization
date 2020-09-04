@@ -1,7 +1,7 @@
 // MFE
-var block_MFE = IDRegistry.genBlockID(fz("MFE"));
-Block.createBlock(fz("MFE"),[
-	{name:"MFE",texture:[["mfe_bottom",0],["mfe_front",0],["mfe_side",0],["mfe_side",0],["mfe_side",0],["mfe_side",0]],inCreative:true}
+var block_MFE = IDRegistry.genBlockID("MFE");
+Block.createBlock("MFE",[
+	{name:"MFE",texture:[["mfe",0],["mfe",1],["mfe",0],["mfe",0],["mfe",0],["mfe",0]],inCreative:true}
 ]);
 ToolAPI.registerBlockMaterial(block_MFE,"stone",1,true);
 Block.setDestroyLevel(block_MFE,1);

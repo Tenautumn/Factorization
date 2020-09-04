@@ -1,7 +1,7 @@
 // [电池盒]Bat-Box
-var block_bat_box = IDRegistry.genBlockID(fz("batbox"));
-Block.createBlock(fz("batbox"),[
-	{name:"Bat-Box",texture:[["batbox_bottom",0],["batbox_front",0],["batbox_side",0],["batbox_side",0],["batbox_side",0],["batbox_side",0]],inCreative:true}
+var block_bat_box = IDRegistry.genBlockID("batbox");
+Block.createBlock("batbox",[
+	{name:"Bat-Box",texture:[["batbox",0],["batbox",1],["batbox",0],["batbox",0],["batbox",0],["batbox",0]],inCreative:true}
 ]);
 ToolAPI.registerBlockMaterial(block_bat_box,"wood");
 

@@ -1,3 +1,7 @@
+// Rubber Tree
+Translation.addTranslation("Latex",{ru:"Латекс",zh:"[FZ]粘性树脂"});
+Translation.addTranslation("Rubber",{ru:"Резина",zh:"[FZ]橡胶"});
+
 // Tool
 Translation.addTranslation("Wrench",{ru:"Гаечный ключ",zh:"[FZ]扳手"});
 
@@ -8,9 +12,13 @@ Translation.addTranslation("Copper Dust",{ru:"Медная пыль",zh:"[FZ]铜
 Translation.addTranslation("Tin Dust",{ru:"Оловянная пыль",zh:"[FZ]锡粉"});
 
 Translation.addTranslation("Copper Wire",{zh:"[FZ]铜质导线"});
+Translation.addTranslation("Insulated Copper Wire",{zh:"[FZ]绝缘铜质导线"});
 Translation.addTranslation("Crystal Wire",{zh:"[FZ]钻石导线"});
+Translation.addTranslation("Insulated Crystal Wire",{zh:"[FZ]绝缘钻石导线"});
 Translation.addTranslation("Golden Wire",{zh:"[FZ]金质导线"});
+Translation.addTranslation("Insulated Golden Wire",{zh:"[FZ]绝缘金质导线"});
 Translation.addTranslation("Steel Wire",{zh:"[FZ]钢质导线"});
+Translation.addTranslation("Insulated Steel Wire",{zh:"[FZ]绝缘钢质导线"});
 Translation.addTranslation("Super Conductor",{zh:"[FZ]超导体"});
 
 // Storage

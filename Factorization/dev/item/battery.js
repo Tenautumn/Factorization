@@ -1,6 +1,6 @@
 // [电池]Battery
-var item_battery = IDRegistry.genItemID(fz("battery"));
-Item.createItem(fz("battery"),"Battery",{name:"battery",meta:0},{stack:1,isTech:true});
+var item_battery = IDRegistry.genItemID("battery");
+Item.createItem("battery","Battery",{name:"battery",meta:0},{stack:1,isTech:true});
 ChargeItemRegistry.registerExtraItem(item_battery,"Eu",10000,power(1),1,"storage",true,true);
 
 Item.registerIconOverrideFunction(item_battery,function(item){

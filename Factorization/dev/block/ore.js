@@ -5,8 +5,8 @@ Block.createSpecialType({
 },"ore");
 
 // [铀矿石]Uranium Ore
-var block_uranium_ore = IDRegistry.genBlockID(fz("oreUranium"));
-Block.createBlock(fz("oreUranium"),[
+var block_uranium_ore = IDRegistry.genBlockID("oreUranium");
+Block.createBlock("oreUranium",[
     {name:"Uranium Ore",texture:[["uranium_ore",0]],inCreative:true}
 ],"ore");
 ToolAPI.registerBlockMaterial(block_uranium_ore,"stone",2,true);
@@ -24,8 +24,8 @@ Block.registerDropFunction(block_uranium_ore,function(coords,id,data,level,encha
 },2);
 
 // [铱矿石]Iridium Ore
-var block_iridium_ore = IDRegistry.genBlockID(fz("oreIridium"));
-Block.createBlock(fz("oreIridium"),[
+var block_iridium_ore = IDRegistry.genBlockID("oreIridium");
+Block.createBlock("oreIridium",[
     {name:"Iridium Ore",texture:[["iridium_ore",0]],inCreative:true}
 ],"ore");
 ToolAPI.registerBlockMaterial(block_iridium_ore,"stone",2,true);
@@ -43,8 +43,8 @@ Block.registerDropFunction(block_iridium_ore,function(coords,id,data,level,encha
 },2);
 
 // [混合粉尘矿石]Blended Dust Ore
-var block_blended_dust_ore = IDRegistry.genBlockID(fz("oreBlendedDust"));
-Block.createBlock(fz("oreBlendedDust"),[
+var block_blended_dust_ore = IDRegistry.genBlockID("oreBlendedDust");
+Block.createBlock("oreBlendedDust",[
     {name:"Blended Dust Ore",texture:[["blended_dust_ore",0]],inCreative:true}
 ],"ore");
 ToolAPI.registerBlockMaterial(block_blended_dust_ore,"stone",2,true);
@@ -68,16 +68,16 @@ Block.registerDropFunction(block_blended_dust_ore,function(coords,id,data,level,
 },2);
 
 // [铜矿石]Copper Ore
-var block_copper_ore = IDRegistry.genBlockID(fz("oreCopper"));
-Block.createBlock(fz("oreCopper"),[
+var block_copper_ore = IDRegistry.genBlockID("oreCopper");
+Block.createBlock("oreCopper",[
     {name:"Copper Ore",texture:[["copper_ore",0]],inCreative:true}
 ],"ore");
 ToolAPI.registerBlockMaterial(block_copper_ore,"stone",1,true);
 Block.setDestroyLevel(block_copper_ore,1);
 
 // [锡矿石]Tin Ore
-var block_tin_ore = IDRegistry.genBlockID(fz("oreTin"));
-Block.createBlock(fz("oreTin"),[
+var block_tin_ore = IDRegistry.genBlockID("oreTin");
+Block.createBlock("oreTin",[
     {name:"Tin Ore",texture:[["tin_ore",0]],inCreative:true}
 ],"ore");
 ToolAPI.registerBlockMaterial(block_tin_ore,"stone",1,true);
