@@ -166,64 +166,6 @@ Callback.addCallback("LevelLoaded",function(){
     }
 });
 
-// ================================================== * OreDict * ================================================== //
-
-var OreDict = {
-    dicts:{},
-    preferreds:{},
-    transformings:{},
-
-    getPreferredItem:function(name,isDict){
-        var preferred = this.preferreds[name];
-        if(preferred) return preferred;
-
-        if(!isDict){
-            var dict = this.dicts[name];
-            if(dict){
-                for(let i in dict){
-                    if(i.indexOf(":") != -1){
-                        var item = i.split(":");
-                        return{id:eval(item[0]),data:item[1]}
-                    } else {
-                        return {id:eval(i),data:0}
-                    }
-                }
-            }
-        }
-    },
-
-    addOre:function(name,item){
-        if(!this.dicts[name]) this.dicts[name] = {}
-        for(let i in item){
-            this.dicts[name][item[i].id + ":" + (item[i].data || 0)] = true;
-        }
-    },
-
-    registerItemUnified:function(name,id,data){
-        var item = {}
-
-        if(typeof(id) == "object") item = id;
-        if(typeof(id) == "number") item = {id:id,data:data}
-
-        this.preferreds[name] = {id:item.id,data:(item.data || 0)}
-        this.transformings[name] = {id:item.id,data:(item.data || 0)}
-    }
-}
-
-Callback.addCallback("tick",function(){
-    if(World.getThreadTime()%20 == 0){
-        for(let i in OreDict.transformings){
-            var item = OreDict.transformings[i];
-            for(let slot = 0;slot < 36;slot++){
-                var inv = Player.getInventorySlot(slot);
-                if(OreDict.dicts[name][inv.id + ":" + inv.data]){
-                    Player.setInventorySlot(slot,item.id,inv.count,(item.data || 0));
-                }
-            }
-        }
-    }
-});
-
 // ================================================== * MachineRecipe * ================================================== //
 
 var MachineRecipe = {
@@ -368,6 +310,5 @@ var MachineRecipe = {
 
 
 EXPORT("Chunk",Chunk);
-EXPORT("OreDict",OreDict);
 EXPORT("ItemName",ItemName);
 EXPORT("MachineRecipe",MachineRecipe);

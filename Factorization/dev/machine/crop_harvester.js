@@ -1,10 +1,10 @@
 // [作物收割机]Crop Harvester
-var block_crop_harvester = IDRegistry.genBlockID("cropHarvester");
+IDRegistry.genBlockID("cropHarvester");
 Block.createBlock("cropHarvester",[
     {name:"Crop Harvester",texture:[["machine_bottom",0],["machine_top",0],["machine_side",0],["crop_harvester",0],["machine_side",0],["machine_side",0]],inCreative:true}
 ]);
-ToolAPI.registerBlockMaterial(block_crop_harvester,"stone",1,true);
-Block.setDestroyLevel(block_crop_harvester,1);
+ToolAPI.registerBlockMaterial(BlockID.cropHarvester,"stone",1,true);
+Block.setDestroyLevel("cropHarvester",1);
 
 var GuiCropHarvester = new UI.StandartWindow({
 	standart:{
@@ -43,7 +43,7 @@ var GuiCropHarvester = new UI.StandartWindow({
 	}
 });
 
-Machine.registerMachine(block_crop_harvester,{
+Machine.registerMachine(BlockID.cropHarvester,{
     defaultValues:{
         meta:0,
         progress:0,
@@ -192,8 +192,8 @@ Machine.registerMachine(block_crop_harvester,{
         
     energyReceive:BasicEnergyReceive
 });
-TileRenderer.setRotationPlaceFunction(block_crop_harvester);
-StorageInterface.createInterface(block_crop_harvester,{
+TileRenderer.setRotationPlaceFunction(BlockID.cropHarvester);
+StorageInterface.createInterface(BlockID.cropHarvester,{
 	slots:{
         "slotInput1":{input:true},
         "slotInput2":{input:true},

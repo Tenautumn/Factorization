@@ -1,16 +1,16 @@
 // [电池盒]Bat-Box
-var block_bat_box = IDRegistry.genBlockID("batbox");
+IDRegistry.genBlockID("batbox");
 Block.createBlock("batbox",[
 	{name:"Bat-Box",texture:[["batbox",0],["batbox",1],["batbox",0],["batbox",0],["batbox",0],["batbox",0]],inCreative:true}
 ]);
-ToolAPI.registerBlockMaterial(block_bat_box,"wood");
+ToolAPI.registerBlockMaterial(BlockID.batbox,"wood");
 
 Callback.addCallback("PreLoaded",function(){
 	// Group
 	Item.addCreativeGroup("storage",Translation.translate("Storage"),[
-		block_bat_box,
-		block_MFE    ,
-		block_MFSU   ,
+		BlockID.batbox,
+		BlockID.MFE   ,
+		BlockID.MFSU  ,
 	]);
 });
 
@@ -33,7 +33,7 @@ var GuiBatBox = new UI.StandartWindow({
 	}
 });
 
-Machine.registerStorage(block_bat_box,{
+Machine.registerStorage(BlockID.batbox,{
 	canReceiveEnergy:function(side){
 		return side == BlockSide.UP;
 	},

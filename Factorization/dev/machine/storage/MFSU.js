@@ -1,10 +1,10 @@
 // MFSU
-var block_MFSU = IDRegistry.genBlockID("MFSU");
+IDRegistry.genBlockID("MFSU");
 Block.createBlock("MFSU",[
 	{name:"MFSU",texture:[["mfsu",0],["mfsu",1],["mfsu",0],["mfsu",0],["mfsu",0],["mfsu",0]],inCreative:true}
 ]);
-ToolAPI.registerBlockMaterial(block_MFSU,"stone",1,true);
-Block.setDestroyLevel(block_MFSU,1);
+ToolAPI.registerBlockMaterial(BlockID.MFSU,"stone",1,true);
+Block.setDestroyLevel("MFSU",1);
 
 var GuiMFSU = new UI.StandartWindow({
 	standart:{
@@ -25,7 +25,7 @@ var GuiMFSU = new UI.StandartWindow({
 	}
 });
 
-Machine.registerStorage(block_MFSU,{
+Machine.registerStorage(BlockID.MFSU,{
 	canReceiveEnergy:function(side){
 		return side == BlockSide.UP;
 	},

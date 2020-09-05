@@ -1,23 +1,23 @@
 // [打粉机]Macerator
-var block_macerator = IDRegistry.genBlockID("macerator");
+IDRegistry.genBlockID("macerator");
 Block.createBlock("macerator",[
     {name:"Macerator",texture:[["machine_bottom",0],["macerator_top",0],["machine_side",0],["macerator",0],["machine_side",0],["machine_side",0]],inCreative:true}
 ]);
-TileRenderer.setStandartModel(block_macerator,[["machine_bottom",0],["macerator_top",0],["machine_side",0],["macerator",0],["machine_side",0],["machine_side",0]]);
-TileRenderer.registerRotationModel(block_macerator,0,[["machine_bottom",0],["macerator_top",0],["machine_side",0],["macerator",0],["machine_side",0],["machine_side",0]]);
-TileRenderer.registerRotationModel(block_macerator,4,[["machine_bottom",0],["macerator_top",1],["machine_side",0],["macerator",0],["machine_side",0],["machine_side",0]]);
+TileRenderer.setStandartModel(BlockID.macerator,[["machine_bottom",0],["macerator_top",0],["machine_side",0],["macerator",0],["machine_side",0],["machine_side",0]]);
+TileRenderer.registerRotationModel(BlockID.macerator,0,[["machine_bottom",0],["macerator_top",0],["machine_side",0],["macerator",0],["machine_side",0],["machine_side",0]]);
+TileRenderer.registerRotationModel(BlockID.macerator,4,[["machine_bottom",0],["macerator_top",1],["machine_side",0],["macerator",0],["machine_side",0],["machine_side",0]]);
 
-ToolAPI.registerBlockMaterial(block_macerator,"stone",1,true);
-Block.setDestroyLevel(block_macerator,1);
+ToolAPI.registerBlockMaterial(BlockID.macerator,"stone",1,true);
+Block.setDestroyLevel("macerator",1);
 
 Callback.addCallback("PreLoaded",function(){
     MachineRecipe.addMachineRecipeFor("macerator",[
-        {input:[{id:14,count:1,data:0}],output:[{id:item_dust_gold,count:2,data:0}]},
-        {input:[{id:15,count:1,data:0}],output:[{id:item_dust_iron,count:2,data:0}]},
-        {input:[{id:41,count:1,data:0}],output:[{id:item_dust_gold,count:9,data:0}]},
-        {input:[{id:42,count:1,data:0}],output:[{id:item_dust_iron,count:9,data:0}]},
-        {input:[{id:265,count:1,data:0}],output:[{id:item_dust_iron,count:1,data:0}]},
-        {input:[{id:266,count:1,data:0}],output:[{id:item_dust_gold,count:1,data:0}]}
+        {input:[{id:14,count:1,data:0}],output:[{id:ItemID.dustGold,count:2,data:0}]},
+        {input:[{id:15,count:1,data:0}],output:[{id:ItemID.dustIron,count:2,data:0}]},
+        {input:[{id:41,count:1,data:0}],output:[{id:ItemID.dustGold,count:9,data:0}]},
+        {input:[{id:42,count:1,data:0}],output:[{id:ItemID.dustIron,count:9,data:0}]},
+        {input:[{id:265,count:1,data:0}],output:[{id:ItemID.dustIron,count:1,data:0}]},
+        {input:[{id:266,count:1,data:0}],output:[{id:ItemID.dustGold,count:1,data:0}]}
     ]);
 });
 
@@ -50,7 +50,7 @@ var GuiMacerator = new UI.StandartWindow({
 });
 
 
-Machine.registerMachine(block_macerator,{
+Machine.registerMachine(BlockID.macerator,{
     defaultValues:{
         meta:0,
         progress:0,
@@ -97,4 +97,4 @@ Machine.registerMachine(block_macerator,{
         
     energyReceive:BasicEnergyReceive
 });
-TileRenderer.setRotationPlaceFunction(block_macerator);
+TileRenderer.setRotationPlaceFunction(BlockID.macerator);

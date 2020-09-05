@@ -1,10 +1,10 @@
 // MFE
-var block_MFE = IDRegistry.genBlockID("MFE");
+IDRegistry.genBlockID("MFE");
 Block.createBlock("MFE",[
 	{name:"MFE",texture:[["mfe",0],["mfe",1],["mfe",0],["mfe",0],["mfe",0],["mfe",0]],inCreative:true}
 ]);
-ToolAPI.registerBlockMaterial(block_MFE,"stone",1,true);
-Block.setDestroyLevel(block_MFE,1);
+ToolAPI.registerBlockMaterial(BlockID.MFE,"stone",1,true);
+Block.setDestroyLevel("MFE",1);
 
 var GuiMFE = new UI.StandartWindow({
 	standart:{
@@ -25,7 +25,7 @@ var GuiMFE = new UI.StandartWindow({
 	}
 });
 
-Machine.registerStorage(block_MFE,{
+Machine.registerStorage(BlockID.MFE,{
 	canReceiveEnergy:function(side){
 		return side == BlockSide.UP;
 	},

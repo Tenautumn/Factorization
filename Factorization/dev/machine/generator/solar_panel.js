@@ -1,12 +1,12 @@
 // [太阳能发电机]Solar Panel
-var block_solar_panel = IDRegistry.genBlockID("solarPanel");
+IDRegistry.genBlockID("solarPanel");
 Block.createBlock("solarPanel",[
 	{name:"Solar Panel",texture:[["machine_bottom",0],["solar_panel",0],["machine_side",0],["machine_side",0],["machine_side",0],["machine_side",0]],inCreative:true}
 ]);
-ToolAPI.registerBlockMaterial(block_solar_panel,"stone",1,true);
-Block.setDestroyLevel(block_solar_panel,1);
+ToolAPI.registerBlockMaterial(BlockID.solarPanel,"stone",1,true);
+Block.setDestroyLevel("solarPanel",1);
 
-Machine.registerGenerator(block_solar_panel,{
+Machine.registerGenerator(BlockID.solarPanel,{
     getEnergyStorage:function(){
 		return 20;
     },
